@@ -1,0 +1,168 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Real-Time object Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e1e1e, #3a3a3a); /* Black & Grey gradient */
+            color: white;
+        }
+
+        /* Stylish Header with Color Wave */
+        h1 {
+            margin: 20px 0;
+            font-size: 30px; /* Smaller font size */
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            animation: colorWave 8s ease infinite; /* Slower and softer color wave */
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.1), 0 0 10px rgba(255, 255, 255, 0.1); /* Reduced glow */
+        }
+
+        /* Animation for color wave effect */
+        @keyframes colorWave {
+            0% {
+                color: #f4a261;
+                text-shadow: 0 0 5px #f4a261, 0 0 10px #f4a261;
+            }
+            25% {
+                color: #e76f51;
+                text-shadow: 0 0 5px #e76f51, 0 0 10px #e76f51;
+            }
+            50% {
+                color: #2a9d8f;
+                text-shadow: 0 0 5px #2a9d8f, 0 0 10px #2a9d8f;
+            }
+            75% {
+                color: #264653;
+                text-shadow: 0 0 5px #264653, 0 0 10px #264653;
+            }
+            100% {
+                color: #e9c46a;
+                text-shadow: 0 0 5px #e9c46a, 0 0 10px #e9c46a;
+            }
+        }
+
+        /* Designer Text with Glowing Wave */
+        .designer {
+            margin-bottom: 10px;
+            font-size: 14px; /* Smaller font size */
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: colorWave 8s ease infinite; /* Slower and softer color wave */
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.1), 0 0 10px rgba(255, 255, 255, 0.1); /* Reduced glow */
+        }
+
+        /* Buttons Container */
+        .buttons {
+            display: flex;
+            justify-content: space-between; /* Buttons at extreme left and right */
+            align-items: center;
+            padding: 0 50px; /* Space from edges */
+            margin-top: 10px;
+        }
+
+        /* Button Styling */
+        button {
+            padding: 14px 28px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Start Button */
+        .start {
+            background: linear-gradient(45deg, #28a745, #4caf50);
+        }
+
+        .start:hover {
+            background: linear-gradient(45deg, #218838, #388e3c);
+            box-shadow: 0 0 15px #4caf50; /* Hover glow effect */
+        }
+
+        /* Stop Button */
+        .stop {
+            background: linear-gradient(45deg, #dc3545, #ff5c5c);
+        }
+
+        .stop:hover {
+            background: linear-gradient(45deg, #c82333, #e57373);
+            box-shadow: 0 0 15px #ff5c5c; /* Hover glow effect */
+        }
+
+        /* Container for Video Feed */
+        .container {
+            border: 6px solid #007bff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            width: 800px;
+            height: 600px;
+            margin: 20px auto;
+            background-color: black; /* Black background */
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Fit the frame perfectly */
+        }
+    </style>
+</head>
+<body>
+    <h1>Real-Time object Detection</h1>
+    <!-- Designer Text -->
+    <div class="designer">Designed by Danish Maqbool</div>
+
+    <!-- Buttons -->
+    <div class="buttons">
+        <button id="start-btn" class="start" onclick="startDetection()">Start Detecting</button>
+        <button id="stop-btn" class="stop" onclick="stopDetection()">Stop Detecting</button>
+    </div>
+
+    <!-- Container for Video Feed -->
+    <div class="container">
+        <img id="video-feed" src="" alt="Webcam Feed" />
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        let videoFeed = document.getElementById('video-feed');
+        let isDetecting = false;
+
+        // Start Detection
+        function startDetection() {
+            if (!isDetecting) {
+                videoFeed.src = "{{ url_for('video_feed') }}"; // Start video feed
+                isDetecting = true;
+            }
+        }
+
+        // Stop Detection
+        function stopDetection() {
+            if (isDetecting) {
+                videoFeed.src = ""; // Stop video feed
+                fetch('/stop_camera') // Backend call to release the camera
+                    .then(response => console.log("Camera stopped"))
+                    .catch(err => console.error(err));
+                isDetecting = false;
+            }
+        }
+    </script>
+</body>
+</html>
