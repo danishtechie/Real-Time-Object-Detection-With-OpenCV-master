@@ -1,5 +1,5 @@
  Real-Time Object Detection Using YOLOv8
-Designed by Danish Maqbool Baig
+ By: Danish Maqbool Baig
 
 Project Overview
 This project implements a real-time object detection system using the YOLOv8 (You Only Look Once) model and the Flask framework. It utilizes a live webcam feed to detect and classify objects, displaying the results directly in a web browser with bounding boxes and confidence scores.
